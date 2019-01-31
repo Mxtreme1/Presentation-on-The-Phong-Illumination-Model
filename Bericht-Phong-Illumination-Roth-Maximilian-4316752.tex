@@ -1,0 +1,135 @@
+\documentclass[a4paper]{scrartcl}%{{{
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{pgf}
+\usepackage[utf8x]{inputenc} % this is needed for umlaut}s
+\usepackage[ngerman]{babel} % this is needed for umlauts
+\usepackage[T1,T5]{fontenc}    % this is needed for correct output of umlauts in pd
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathabx}
+\usepackage{mathrsfs}
+\usepackage{dsfont}
+\usepackage{wasysym}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{imakeidx}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Kopf- und Fusszeilen %
+%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\lhead{
+        Maximilian Roth:
+}
+\chead{Phong Illumination Model}
+\rhead{
+    \begin{tabular}{rr}
+        \today{} \\
+        Seite \thepage{} von \pageref{LastPage}
+    \end{tabular}
+}
+\lfoot{}
+\cfoot{}
+\rfoot{} 
+
+\title{Phong Illumination Model}
+\author{Maximilian Christian Roth}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+% Anfang des Dokuments %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%}}}
+
+\maketitle
+\tableofcontents
+
+\newpage
+
+\section{Einführung}%
+\label{sec:einfuhrung}
+
+    Das Phong-Illumination-Model oder Phong Beleuchtungsmodell ist ein Verfahren zur Berechnung der Intensität von Reflexionen auf der Oberfläche von Objekten,\\
+    welches im Jahr 1975 von Bùi Tường Phong \footnotemark[1] vorgestellt wurde.\\
+    \footnotetext[1]{Bùi Tường Phong: \url{https://en.wikipedia.org/wiki/Bui_Tuong_Phong}} 
+
+\section{RGB-Vektoren}%
+\label{sec:rgb_vektoren}
+    In der Computergraphik werden verschiedene Werte, wie zum Beispiel - bei üblichen Implementationen des Phong-Illumination-Models -
+    die Intensität von Licht und Materialkonstanten, die etwas über das Reflexionsverhalten eines Objekts aussagen, als RGB-Vektoren dargestellt.\\
+    Diese  
+
+\section{Phongs Reflexionstypen}%
+\label{sec:phongs_reflexionstypen}
+
+    \subsection{Für die Berechnung benötigte Werte}%
+    \label{sub:fur_die_berechnung_benotigte_werte}
+        Um die Reflexion für einen Punkt zu berechnen benötigen wir einige Hintergrundinformationen:\\
+        \begin{table}[H]
+        \caption{Wichtige Notationen}
+        \label{table:vars}
+        \begin{tabular}{l|l|l}
+            \hline
+            \multicolumn{1}{|c|}{Variable} & \multicolumn{1}{c|}{Bedeutung}                         & \multicolumn{1}{c|}{Typ} \\ \hline
+            $\vec{P}$                              & Der betrachtete Punkt auf der Oberfläche eines Objekts & Vektor                   \\ \hline
+            $\vec{N}$                              & Die Oberflächennormale des Punktes                     & Vektor                   \\ \hline
+            $\vec{L}$                              & Der Vektor von P zur Lichtquelle                       & Vektor                   \\ \hline
+            $\vec{R}$                              & Der reflektierte Lichtvektor am Punkt P                & Vektor                   \\ \hline
+            $\vec{V}$                              & Der Vektor von P zum Viewpoint                         & Vektor                   \\ \hline
+            $[I_{a}]$                    & Die Intensität des Umgebungslicht                      & RGB-Vektor               \\ \hline
+            $[I_{in}]$                         & Die Intensität einer Lichtquelle                       & RGB-Vektor               \\ \hline
+            $[I_{ambient}]$                         & Die Intensität der ambienten Lichtreflexion                       & RGB-Vektor               \\ \hline
+            $[I_{diffus}]$                         & Die Intensität der diffusen Lichtreflexion                       & RGB-Vektor               \\ \hline
+            $[I_{spekular}]$                         & Die Intensität der spekularen Lichtreflexion                       & RGB-Vektor               \\ \hline
+            $[k_{ambient}]$                    & Die ambiente Materialkonstante                         & RGB-Vektor               \\ \hline
+            $[k_{diffus}]$                     & Die diffuse Materialkonstante                          & RGB-Vektor               \\ \hline
+            $[k_{spekular}]$                   & Die spekulare Materialkonstante                        & RGB-Vektor              \\ \hline
+            n                   & Die Rauigkeit des Materials                        & Konstante              \\ \hline
+            m                   & 'Shininess' im Blinn-Phong-Model                        & Konstante
+        \end{tabular}
+        \end{table}
+    
+    
+
+    Im Phong-Illumination-Model \footnotemark[2] unterscheidet Bùi Tường Phong bei der Berechnung die Reflexion von Licht in folgende drei Subtypen:\\
+    \footnotetext[2]{Paper: \url{http://www.cs.northwestern.edu/~ago820/cs395/Papers/Phong_1975.pdf}}
+
+    \subsection{Die ambiente Reflexion}%
+    \label{sub:die_ambiente_reflexion}
+        Das Umgebungslicht, das von anderen Objekten im Raum and den betrachteten Punkt P (Siehe Tabelle ~\ref{table:vars}) reflektiert wird.\\
+        Physikalisch gesehen müsste hier für jeden Punkt der Weg jedes Photons berechnet werden, um eine realistische Reflexion zu erreichen.\\
+        Da dies jedoch sehr auswändig wäre wird einfach eine Umgebungslichtintensität für den Punkt gegeben mit dem dann die Reflexion berechnet wird.\\
+        Die meisten Implementationen des Phong-Illumination-Models machen es sich jedoch noch einfacher und nehmen global die selbe Intensität an.\\
+        \\Berechnet wird die Intensität der Reflexion des ambienten Lichts in der Regel wie folgt:\\
+        \begin{equation}
+            \label{eq:amb}
+                [I_{ambient}] = [I_a] \cdot [k_{ambient}]\\
+        \end{equation}
+        Für die Variablen siehe Tabelle ~\ref{table:vars}\\
+
+    \subsection{Die diffuse Reflexion}%
+    \label{sub:die_diffuse_reflexion}
+        Der zweite Typ, in den Phong Reflexion unterteilt ist die diffuse Reflexion.\\
+        Sie beschreibt, wie Licht, das direkt von einer Lichtquelle auf das Objekt trifft absorbiert, und damit auch wie es reflektiert wird.\\
+        Hier wird das von anderen Objekten auf den betrachteten Punkt reflektierte Licht nicht betrachtet.\\
+        \\Die Berechnungsvorschrift lautet:\\
+        \begin{equation}
+            \label{eq:diff}
+                [I_{diffus}] = [I_{in}] \cdot 
+        \end{equation}
+    
+    
+
+
+
+
+\end{document}
