@@ -1,7 +1,18 @@
 \babel@toc {ngerman}{}
 \contentsline {section}{\numberline {1}Einf\IeC {\"u}hrung}{2}{section.1}
-\contentsline {section}{\numberline {2}RGB-Vektoren}{2}{section.2}
-\contentsline {section}{\numberline {3}Phongs Reflexionstypen}{2}{section.3}
-\contentsline {subsection}{\numberline {3.1}F\IeC {\"u}r die Berechnung ben\IeC {\"o}tigte Werte}{2}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Die ambiente Reflexion}{3}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Die diffuse Reflexion}{4}{subsection.3.3}
+\contentsline {section}{\numberline {2}Inputs \& Outputs}{2}{section.2}
+\contentsline {section}{\numberline {3}RGB-Vektoren}{3}{section.3}
+\contentsline {subsection}{\numberline {3.1}Addition von RGB-Vektoren}{3}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Multiplikation von RGB-Vektoren}{4}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Multiplikation eines RGB-Vektors mit einer Konstante}{4}{subsection.3.3}
+\contentsline {section}{\numberline {4}Phongs Reflexionstypen}{4}{section.4}
+\contentsline {subsection}{\numberline {4.1}Die ambiente Reflexion}{4}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Die diffuse Reflexion}{5}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Die spekulare Reflexion}{6}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Das gesamte Phong Beleuchtungsmodell}{7}{subsection.4.4}
+\contentsline {section}{\numberline {5}Annahmen des Phong Modells}{8}{section.5}
+\contentsline {subsection}{\numberline {5.1}Annahmen des Modells}{8}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Annahmen vieler Implementationen}{9}{subsection.5.2}
+\contentsline {section}{\numberline {6}Quellen}{10}{section.6}
+\contentsline {subsection}{\numberline {6.1}Textquellen}{10}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Bildquellen}{10}{subsection.6.2}
